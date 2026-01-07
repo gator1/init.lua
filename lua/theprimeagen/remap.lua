@@ -1,4 +1,4 @@
-vim.g.mapleader = " "
+-- mapleader is set in init.lua, don't set it here (causes timing issues with lazy-loaded plugins)
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -25,7 +25,7 @@ vim.keymap.set("n", "<leader>lt", function()
 end)
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set("x", "<leader>P", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
@@ -80,4 +80,9 @@ end)
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
+
+-- Debug: test if leader key works (press Space then t)
+vim.keymap.set("n", "<leader>t", function()
+    vim.notify("Leader key works! Press Space then ? to see all mappings", vim.log.levels.INFO)
+end, { desc = "Test leader key" })
 

@@ -29,3 +29,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
+
+-- Leader key timeout settings
+vim.opt.timeout = true
+vim.opt.timeoutlen = 500  -- time to wait for mapped sequence (ms)
