@@ -1,4 +1,5 @@
 return {
+    {
         "folke/trouble.nvim",
         config = function()
             require("trouble").setup({
@@ -18,4 +19,5 @@ return {
             end)
 
         end
+    }
 }

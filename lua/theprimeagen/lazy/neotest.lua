@@ -1,5 +1,6 @@
 return {
-    "nvim-neotest/neotest",
+    {
+        "nvim-neotest/neotest",
     dependencies = {
         "nvim-neotest/nvim-nio",
         "nvim-lua/plenary.nvim",
@@ -52,4 +53,5 @@ return {
         end, { desc = "Debug: Open test output" })
 
     end
+    }
 }

@@ -1,6 +1,7 @@
 
 return {
-    "folke/zen-mode.nvim",
+    {
+        "folke/zen-mode.nvim",
     config = function()
         vim.keymap.set("n", "<leader>zz", function()
             require("zen-mode").setup {
@@ -32,6 +33,7 @@ return {
             ColorMyPencils()
         end)
     end
+    }
 }
 
 

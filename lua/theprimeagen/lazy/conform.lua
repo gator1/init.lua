@@ -1,5 +1,6 @@
 return {
-	"stevearc/conform.nvim",
+	{
+		"stevearc/conform.nvim",
 	opts = {},
 	config = function()
 		require("conform").setup({
@@ -27,4 +28,5 @@ return {
 			require("conform").format({ bufnr = 0 })
 		end)
 	end,
+	}
 }
