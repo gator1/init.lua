@@ -16,7 +16,7 @@ about though i would just suggest `git log -S`).
 * [a3bad06a](https://github.com/ThePrimeagen/init.lua/commit/a3bad06a4681c322538d609aa1c0bd18880f77c6) disabled eslint.  driving me crazy
 
 * [06dd49e](https://github.com/ThePrimeagen/init.lua/commit/06dd49ec0986f918b6ceb927a2b8e27163ed8df6) fixed, remove personal plugins, now on lazy.
-* [06dd49e](https://github.com/ThePrimeagen/init.lua/commit/06dd49ec0986f918b6ceb927a2b8e27163ed8df6) tmux
+* [f639396](https://github.com/ThePrimeagen/init.lua/commit/f639396ffcb7901ff8ba7387df5e78bc3226ead3) tmux
 
 
 
