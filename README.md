@@ -17,6 +17,7 @@ about though i would just suggest `git log -S`).
 
 * [06dd49e](https://github.com/ThePrimeagen/init.lua/commit/06dd49ec0986f918b6ceb927a2b8e27163ed8df6) fixed, remove personal plugins, now on lazy.
 * [f639396](https://github.com/ThePrimeagen/init.lua/commit/f639396ffcb7901ff8ba7387df5e78bc3226ead3) tmux
+* [e911c5e](https://github.com/ThePrimeagen/init.lua/commit/e911c5e0bc19250a6c40b48ea9d106b96157d0b2) tmux
 
 
 
