@@ -84,12 +84,12 @@ return {
       vim.notify("Added ref to Amp prompt: " .. ref, vim.log.levels.INFO)
     end, { range = true, desc = "Amp: add @file#Lstart-end to prompt" })
 
-    vim.keymap.set("n", "<leader>aa", ":AmpStartHere<CR>", { silent = true, desc = "Amp Start+Status" })
-    vim.keymap.set("n", "<leader>as", ":AmpStatusHere<CR>", { silent = true, desc = "Amp Status" })
-    vim.keymap.set("n", "<leader>ax", ":AmpStopHere<CR>",  { silent = true, desc = "Amp Stop" })
-    vim.keymap.set("n", "<leader>am", ":AmpSend ",         { silent = false, desc = "Amp Send (type message)" })
-    vim.keymap.set("n", "<leader>ab", ":AmpSendBuffer<CR>",{ silent = true, desc = "Amp Send Buffer" })
-    vim.keymap.set("x", "<leader>ap", ":AmpPromptSelection<CR>", { silent = true, desc = "Amp Prompt Selection" })
-    vim.keymap.set("n", "<leader>ar", ":AmpPromptRef<CR>", { silent = true, desc = "Amp Prompt Ref" })
+    vim.keymap.set("n", "<leader>Aa", ":AmpStartHere<CR>", { silent = true, desc = "Amp Start+Status" })
+    vim.keymap.set("n", "<leader>As", ":AmpStatusHere<CR>", { silent = true, desc = "Amp Status" })
+    vim.keymap.set("n", "<leader>Ax", ":AmpStopHere<CR>",  { silent = true, desc = "Amp Stop" })
+    vim.keymap.set("n", "<leader>Am", ":AmpSend ",         { silent = false, desc = "Amp Send (type message)" })
+    vim.keymap.set("n", "<leader>Ab", ":AmpSendBuffer<CR>",{ silent = true, desc = "Amp Send Buffer" })
+    vim.keymap.set("x", "<leader>Ap", ":AmpPromptSelection<CR>", { silent = true, desc = "Amp Prompt Selection" })
+    vim.keymap.set("n", "<leader>Ar", ":AmpPromptRef<CR>", { silent = true, desc = "Amp Prompt Ref" })
   end,
 }
