@@ -37,6 +37,8 @@ return {
                 "gopls",
                 "vtsls",
                 "tailwindcss",
+                "clangd",
+                "pyright",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
