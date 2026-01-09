@@ -32,6 +32,13 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
 
+-- Diagnostic display (inline errors like primeagen)
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+})
+
 -- Leader key timeout settings
 vim.opt.timeout = true
 vim.opt.timeoutlen = 500  -- time to wait for mapped sequence (ms)
