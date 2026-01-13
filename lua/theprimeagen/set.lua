@@ -42,3 +42,6 @@ vim.diagnostic.config({
 -- Leader key timeout settings
 vim.opt.timeout = true
 vim.opt.timeoutlen = 500  -- time to wait for mapped sequence (ms)
+
+-- Show hidden files in netrw
+vim.g.netrw_list_hide = ''
