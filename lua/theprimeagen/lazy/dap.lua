@@ -1,5 +1,20 @@
 vim.api.nvim_create_augroup("DapGroup", { clear = true })
 
+-- Cross-platform path helper
+local function get_codelldb_paths()
+    local mason_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension"
+    local codelldb = mason_path .. "/adapter/codelldb"
+    local liblldb
+
+    if vim.fn.has("mac") == 1 then
+        liblldb = mason_path .. "/lldb/lib/liblldb.dylib"
+    else
+        liblldb = mason_path .. "/lldb/lib/liblldb.so"
+    end
+
+    return codelldb, liblldb
+end
+
 local function navigate(args)
     local buffer = args.buf
 
@@ -35,10 +50,24 @@ return {
     {
         "mfussenegger/nvim-dap",
         lazy = false,
+        dependencies = {
+            "theHamsta/nvim-dap-virtual-text",
+            {
+                "mxsdev/nvim-dap-vscode-js",
+                opts = {
+                    debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
+                    adapters = { "pwa-node", "pwa-chrome", "node-terminal" },
+                },
+            },
+        },
         config = function()
             local dap = require("dap")
             dap.set_log_level("DEBUG")
 
+            -- Virtual text for inline variable values
+            require("nvim-dap-virtual-text").setup({ commented = true })
+
+            -- Keymaps
             vim.keymap.set("n", "<F8>", dap.continue, { desc = "Debug: Continue" })
             vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
             vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
@@ -47,6 +76,93 @@ return {
             vim.keymap.set("n", "<leader>B", function()
                 dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
             end, { desc = "Debug: Set Conditional Breakpoint" })
+            vim.keymap.set("n", "<leader>dt", dap.terminate, { desc = "Debug: Terminate" })
+            vim.keymap.set("n", "<leader>dl", function()
+                dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+            end, { desc = "Debug: Log Point" })
+
+            -- Breakpoint signs
+            vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError" })
+            vim.fn.sign_define("DapBreakpointCondition", { text = "◐", texthl = "DiagnosticWarn" })
+            vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "DiagnosticInfo" })
+            vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticOk", linehl = "Visual" })
+            vim.fn.sign_define("DapBreakpointRejected", { text = "○", texthl = "DiagnosticHint" })
+
+            -----------------------------------------------------------
+            -- RUST / C / C++ Configuration (codelldb)
+            -----------------------------------------------------------
+            local codelldb_path, _ = get_codelldb_paths()
+
+            dap.adapters.codelldb = {
+                type = "server",
+                port = "${port}",
+                executable = {
+                    command = codelldb_path,
+                    args = { "--port", "${port}" },
+                },
+            }
+
+            dap.configurations.rust = {
+                {
+                    name = "Launch executable",
+                    type = "codelldb",
+                    request = "launch",
+                    program = function()
+                        return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+                    end,
+                    cwd = "${workspaceFolder}",
+                    stopOnEntry = false,
+                },
+                {
+                    name = "Attach to process",
+                    type = "codelldb",
+                    request = "attach",
+                    pid = require("dap.utils").pick_process,
+                },
+            }
+
+            dap.configurations.c = dap.configurations.rust
+            dap.configurations.cpp = dap.configurations.rust
+
+            -----------------------------------------------------------
+            -- TypeScript / JavaScript Configuration
+            -----------------------------------------------------------
+            for _, language in ipairs({ "typescript", "javascript", "typescriptreact", "javascriptreact" }) do
+                dap.configurations[language] = {
+                    {
+                        type = "pwa-node",
+                        request = "launch",
+                        name = "Launch file",
+                        program = "${file}",
+                        cwd = "${workspaceFolder}",
+                    },
+                    {
+                        type = "pwa-node",
+                        request = "launch",
+                        name = "Launch file (bun)",
+                        program = "${file}",
+                        cwd = "${workspaceFolder}",
+                        runtimeExecutable = "bun",
+                        runtimeArgs = { "run" },
+                    },
+                    {
+                        type = "pwa-node",
+                        request = "attach",
+                        name = "Attach to Node process",
+                        processId = require("dap.utils").pick_process,
+                        cwd = "${workspaceFolder}",
+                    },
+                    {
+                        type = "pwa-chrome",
+                        request = "launch",
+                        name = "Launch Chrome",
+                        url = function()
+                            return vim.fn.input("URL: ", "http://localhost:3000")
+                        end,
+                        webRoot = "${workspaceFolder}",
+                    },
+                }
+            end
         end
     },
 
@@ -152,6 +268,8 @@ return {
             require("mason-nvim-dap").setup({
                 ensure_installed = {
                     "delve",
+                    "codelldb",
+                    "js-debug-adapter",
                 },
                 automatic_installation = true,
                 handlers = {
