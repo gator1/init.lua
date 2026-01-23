@@ -117,6 +117,12 @@ return {
 
         vim.diagnostic.config({
             -- update_in_insert = true,
+            virtual_text = {
+                prefix = '●',
+                format = function(diagnostic)
+                    return string.sub(diagnostic.message, 1, 50)
+                end,
+            },
             float = {
                 focusable = false,
                 style = "minimal",
